@@ -2,17 +2,15 @@ import requests
 from bs4 import BeautifulSoup as bs
 from Flight import Flight
 
-class QAIA:
-    BASE_URL = 'https://qaiairport.com/en/flight-information/Pages/Arrivals.aspx'
 
+class QAIA:
+    BASE_URL ='https://qaiairport.com/en/flight-information/Pages/'
+    
     def __init__(self):
-        self.time = 0
         self.flights:list[Flight] = []
-        self.fetch_data()
-        self.parse_data()
-    def fetch_data(self):
+    def fetch_data(self,url):
         try:
-            self.resp = requests.get(QAIA.BASE_URL)
+            self.resp = requests.get(url)
         except requests.exceptions as e:
             print('Fetching data failed', e)
 
@@ -27,10 +25,26 @@ class QAIA:
             if flight.string =='\n':
                 continue
             self.flights.append(Flight(flight))
-            # print(flights[0])
-        # for index, i in enumerate(self.flights):
-        #     print(index, '|', i.airline,'|', i.origin,'|', i.flight_number,'|', i.scheduled_time,'|', i.estimated_time ,'|',i.gate ,'|',i.status,'|')
 
+class QAIA_Arrivals(QAIA):
+    BASE_URL = QAIA.BASE_URL+'Arrivals.aspx'
+
+    def __init__(self):
+        self.time = 0
+        super().__init__()
+
+        self.fetch_data(QAIA_Arrivals.BASE_URL)
+        self.parse_data()
+
+
+class QAIA_Departures(QAIA):
+    BASE_URL = QAIA.BASE_URL+'Departures.aspx'
+    
+    def __init__(self):
+        self.time = 0
+        super().__init__()
+        self.fetch_data(QAIA_Departures.BASE_URL)
+        self.parse_data()
 
 
 
