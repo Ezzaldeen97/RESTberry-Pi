@@ -7,7 +7,7 @@ class QAIA:
 
     def __init__(self):
         self.time = 0
-        self.flights = []
+        self.flights:list[Flight] = []
         self.fetch_data()
         self.parse_data()
     def fetch_data(self):
@@ -18,13 +18,19 @@ class QAIA:
 
     def parse_data(self):
         try:
-            soup = bs(self.resp.text)
+            soup = bs(self.resp.text, features='html.parser')
 
             flights = soup.find_all("tbody")[0]
         except Exception as e:
             print('Parsing data failed', e)
         for flight in flights:
+            if flight.string =='\n':
+                continue
             self.flights.append(Flight(flight))
+            # print(flights[0])
+        # for index, i in enumerate(self.flights):
+        #     print(index, '|', i.airline,'|', i.origin,'|', i.flight_number,'|', i.scheduled_time,'|', i.estimated_time ,'|',i.gate ,'|',i.status,'|')
+
 
 
 
