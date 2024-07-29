@@ -1,13 +1,21 @@
 import requests
 from bs4 import BeautifulSoup as bs
-from Flight import Flight
+from .Flight import Flight
+import backend.database as database
 
+def get_arrivals_info():
+    return QAIA_Arrivals()
+
+def get_departures_info():
+    return QAIA_Departures()
 
 class QAIA:
     BASE_URL ='https://qaiairport.com/en/flight-information/Pages/'
     
     def __init__(self):
         self.flights:list[Flight] = []
+        self.cnx = database.get_connection()
+
     def fetch_data(self,url):
         try:
             self.resp = requests.get(url)
@@ -25,6 +33,7 @@ class QAIA:
             if flight.string =='\n':
                 continue
             self.flights.append(Flight(flight))
+        
 
 class QAIA_Arrivals(QAIA):
     BASE_URL = QAIA.BASE_URL+'Arrivals.aspx'
@@ -35,6 +44,8 @@ class QAIA_Arrivals(QAIA):
 
         self.fetch_data(QAIA_Arrivals.BASE_URL)
         self.parse_data()
+        for flight in self.flights:
+            print(flight.airline,'|', flight.origin,'|', flight.flight_number,'|', flight.scheduled_time,'|', flight.estimated_time ,'|',flight.gate ,'|',flight.status)
 
 
 class QAIA_Departures(QAIA):
@@ -45,6 +56,8 @@ class QAIA_Departures(QAIA):
         super().__init__()
         self.fetch_data(QAIA_Departures.BASE_URL)
         self.parse_data()
+        for flight in self.flights:
+            print(flight.airline,'|', flight.origin,'|', flight.flight_number,'|', flight.scheduled_time,'|', flight.estimated_time ,'|',flight.gate ,'|',flight.status)
 
 
 

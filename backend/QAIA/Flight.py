@@ -9,8 +9,8 @@ class Flight:
         self.estimated_time = self.__get_estimated_time()
         self.gate = self.__get_gate()
         self.status = self.__get_status()
-    def __str__(self):
-        return self.airline,'|', self.origin,'|', self.flight_number,'|', self.scheduled_time,'|', self.estimated_time ,'|',self.gate ,'|',self.status
+    # def __str__(self):
+    #     return self.airline,'|', self.origin,'|', self.flight_number,'|', self.scheduled_time,'|', self.estimated_time ,'|',self.gate ,'|',self.status
 
     def __get_airline(self):
         return self.list_of_items[1].string
