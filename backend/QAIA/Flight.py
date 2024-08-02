@@ -1,3 +1,4 @@
+from datetime import datetime
 class Flight:
     def __init__(self, flight_content, flight_type) :
 
@@ -23,10 +24,13 @@ class Flight:
         return self.list_of_items[3].string
         
     def __get_schedule_time(self):
-        return self.list_of_items[4].string
+        datetime_scheduled_time = datetime.strptime(self.list_of_items[4].string, "%d/%m/%Y %H:%M")
+        return datetime_scheduled_time
         
     def __get_estimated_time(self):
-        return self.list_of_items[5].string
+        datetime_estimated_time = datetime.strptime(self.list_of_items[5].string, "%d/%m/%Y %H:%M")
+
+        return datetime_estimated_time
         
     def __get_gate(self):
         return self.list_of_items[6].string
@@ -37,4 +41,3 @@ class Flight:
     def display_details(self):
         print( self.airline,'|', self.origin,'|', self.flight_number,'|', self.scheduled_time,'|', self.estimated_time ,'|',self.gate ,'|',self.status,'|', self.flight_type)
 
-        
