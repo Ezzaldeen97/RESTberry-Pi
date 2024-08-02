@@ -1,5 +1,5 @@
 class Flight:
-    def __init__(self, flight_content) :
+    def __init__(self, flight_content, flight_type) :
 
         self.list_of_items = flight_content.find_all("td")
         self.airline = self.__get_airline()
@@ -9,6 +9,7 @@ class Flight:
         self.estimated_time = self.__get_estimated_time()
         self.gate = self.__get_gate()
         self.status = self.__get_status()
+        self.flight_type = flight_type
     # def __str__(self):
     #     return self.airline,'|', self.origin,'|', self.flight_number,'|', self.scheduled_time,'|', self.estimated_time ,'|',self.gate ,'|',self.status
 
@@ -32,4 +33,8 @@ class Flight:
         
     def __get_status(self):
         return self.list_of_items[7].string
+    
+    def display_details(self):
+        print( self.airline,'|', self.origin,'|', self.flight_number,'|', self.scheduled_time,'|', self.estimated_time ,'|',self.gate ,'|',self.status,'|', self.flight_type)
+
         
