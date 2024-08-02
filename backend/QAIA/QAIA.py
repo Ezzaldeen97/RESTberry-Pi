@@ -16,13 +16,15 @@ class QAIA:
         self.flights:list[Flight] = []
         self.cnx = database.get_connection()
 
+    def __iter__(self):
+        return iter(self.flights)
     def fetch_data(self,url):
         try:
             self.resp = requests.get(url)
         except requests.exceptions as e:
             print('Fetching data failed', e)
 
-    def parse_data(self):
+    def parse_data(self, flight_type):
         try:
             soup = bs(self.resp.text, features='html.parser')
 
@@ -32,7 +34,7 @@ class QAIA:
         for flight in flights:
             if flight.string =='\n':
                 continue
-            self.flights.append(Flight(flight))
+            self.flights.append(Flight(flight, flight_type))
         
 
 class QAIA_Arrivals(QAIA):
@@ -43,9 +45,7 @@ class QAIA_Arrivals(QAIA):
         super().__init__()
 
         self.fetch_data(QAIA_Arrivals.BASE_URL)
-        self.parse_data()
-        for flight in self.flights:
-            print(flight.airline,'|', flight.origin,'|', flight.flight_number,'|', flight.scheduled_time,'|', flight.estimated_time ,'|',flight.gate ,'|',flight.status)
+        self.parse_data("Arrivals")
 
 
 class QAIA_Departures(QAIA):
@@ -55,9 +55,7 @@ class QAIA_Departures(QAIA):
         self.time = 0
         super().__init__()
         self.fetch_data(QAIA_Departures.BASE_URL)
-        self.parse_data()
-        for flight in self.flights:
-            print(flight.airline,'|', flight.origin,'|', flight.flight_number,'|', flight.scheduled_time,'|', flight.estimated_time ,'|',flight.gate ,'|',flight.status)
+        self.parse_data("Departures")
 
 
 
