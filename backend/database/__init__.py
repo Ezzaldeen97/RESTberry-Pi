@@ -1,1 +1,1 @@
-from .db_manager import get_connection
+from .db_manager import get_connection, connect
