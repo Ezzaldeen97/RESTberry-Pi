@@ -5,5 +5,5 @@ if __name__ == "__main__":
     for flight in QAIA.get_arrivals_info():
         flight.display_details()
         
-    for flight in QAIA.get_arrivals_info():
+    for flight in QAIA.get_departures_info():
         flight.display_details()
