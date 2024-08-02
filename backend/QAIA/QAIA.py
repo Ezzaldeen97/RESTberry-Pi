@@ -1,7 +1,6 @@
 import requests
 from bs4 import BeautifulSoup as bs
 from .Flight import Flight
-import backend.database as database
 
 def get_arrivals_info():
     return QAIA_Arrivals()
@@ -14,7 +13,6 @@ class QAIA:
     
     def __init__(self):
         self.flights:list[Flight] = []
-        self.cnx = database.get_connection()
 
     def __iter__(self):
         return iter(self.flights)

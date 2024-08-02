@@ -1,4 +1,5 @@
 from datetime import datetime
+import backend.database as db
 class Flight:
     def __init__(self, flight_content, flight_type) :
 
@@ -11,9 +12,9 @@ class Flight:
         self.gate = self.__get_gate()
         self.status = self.__get_status()
         self.flight_type = flight_type
-    # def __str__(self):
-    #     return self.airline,'|', self.origin,'|', self.flight_number,'|', self.scheduled_time,'|', self.estimated_time ,'|',self.gate ,'|',self.status
+        self.cnx = db.get_connection()
 
+   
     def __get_airline(self):
         return self.list_of_items[1].string
         
@@ -41,3 +42,5 @@ class Flight:
     def display_details(self):
         print( self.airline,'|', self.origin,'|', self.flight_number,'|', self.scheduled_time,'|', self.estimated_time ,'|',self.gate ,'|',self.status,'|', self.flight_type)
 
+    def push_to_db(self):
+        pass
