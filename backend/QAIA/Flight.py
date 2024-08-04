@@ -1,7 +1,7 @@
 from datetime import datetime
 import backend.database as db
 class Flight:
-    def __init__(self, flight_content, flight_type) :
+    def __init__(self, flight_content, flight_type, sql_statement) :
 
         self.list_of_items = flight_content.find_all("td")
         self.airline = self.__get_airline()
@@ -13,7 +13,7 @@ class Flight:
         self.status = self.__get_status()
         self.flight_type = flight_type
         self.cursor = db.get_connection().get_cursor()
-
+        self.SQL_statement = sql_statement
    
     def __get_airline(self):
         return self.list_of_items[1].string
@@ -46,15 +46,9 @@ class Flight:
         print( self.airline,'|', self.origin,'|', self.flight_number,'|', self.scheduled_time,'|', self.estimated_time ,'|',self.gate ,'|',self.status,'|', self.flight_type)
 
     def push_to_db(self):
+
         try:
-            SQL_statement = f"""INSERT INTO {self.flight_type}(airline,
-                            origin ,
-                            Flight_number ,
-                            scheduled_time ,
-                            estimated_time ,
-                            gate ,
-                            flight_status ) VALUES(%s, %s, %s, %s, %s, %s, %s)"""
-            self.cursor.execute(SQL_statement, (self.airline, self.origin, self.flight_number, str(self.scheduled_time),
+            self.cursor.execute(self.SQL_statement, (self.airline, self.origin, self.flight_number, str(self.scheduled_time),
                                         str(self.estimated_time), self.gate, self.status))
         except Exception as e:
             print(f"Error in pushing the data to the db {e}")

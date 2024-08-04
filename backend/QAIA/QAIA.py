@@ -22,7 +22,7 @@ class QAIA:
         except requests.exceptions as e:
             print('Fetching data failed', e)
 
-    def parse_data(self, flight_type):
+    def parse_data(self, flight_type, sql_statement):
         try:
             soup = bs(self.resp.text, features='html.parser')
 
@@ -33,7 +33,7 @@ class QAIA:
             if flight.string =='\n':
                 continue
             try:
-                self.flights.append(Flight(flight, flight_type))
+                self.flights.append(Flight(flight, flight_type, sql_statement))
             except ValueError as e:
                 print(e)
 
@@ -41,6 +41,13 @@ class QAIA:
 
 
 class QAIA_Arrivals(QAIA):
+    SQL_ARRIVALS =f"""INSERT INTO Arrivals(airline,
+                            origin ,
+                            Flight_number ,
+                            scheduled_time ,
+                            estimated_time ,
+                            gate ,
+                            flight_status ) VALUES(%s, %s, %s, %s, %s, %s, %s)"""
     BASE_URL = QAIA.BASE_URL+'Arrivals.aspx'
 
     def __init__(self):
@@ -48,17 +55,23 @@ class QAIA_Arrivals(QAIA):
         super().__init__()
 
         self.fetch_data(QAIA_Arrivals.BASE_URL)
-        self.parse_data("Arrivals")
+        self.parse_data("Arrivals", QAIA_Arrivals.SQL_ARRIVALS)
 
 
 class QAIA_Departures(QAIA):
     BASE_URL = QAIA.BASE_URL+'Departures.aspx'
-    
+    SQL_DEPARTURES ="""INSERT INTO Departures(airline,
+                            destination ,
+                            Flight_number ,
+                            scheduled_time ,
+                            estimated_time ,
+                            gate ,
+                            flight_status ) VALUES(%s, %s, %s, %s, %s, %s, %s)"""
     def __init__(self):
         self.time = 0
         super().__init__()
         self.fetch_data(QAIA_Departures.BASE_URL)
-        self.parse_data("Departures")
+        self.parse_data("Departures", QAIA_Departures.SQL_DEPARTURES)
 
 
 
