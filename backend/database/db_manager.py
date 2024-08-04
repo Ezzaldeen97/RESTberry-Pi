@@ -1,6 +1,8 @@
 import mysql.connector
 import json
-from Main import logger
+import logging
+logger = logging.getLogger(__name__)
+
 
 def connect():
     cnx = Database.get_instance()

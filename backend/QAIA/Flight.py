@@ -1,6 +1,8 @@
 from datetime import datetime
 import backend.database as db
-from Main import logger
+import logging
+logger = logging.getLogger(__name__)
+
 class Flight:
     def __init__(self, flight_content, flight_type, sql_statement) :
 
@@ -28,7 +30,7 @@ class Flight:
     def __get_schedule_time(self):
         datetime_scheduled_time = datetime.strptime(self.list_of_items[4].string, "%d/%m/%Y %H:%M")
         if datetime_scheduled_time.date() != datetime.today().date():
-            logger.info(f"Skipped the flight {self.flight_number} because it isnt today, its {str(datetime_scheduled_time)}")
+            logger.info(f"Skipped the flight {self.flight_number} because it isnt today, its on {str(datetime_scheduled_time)}")
             raise ValueError(f"The flight isnt scheduled today, the flight is {str(datetime_scheduled_time)}")
         return datetime_scheduled_time
         

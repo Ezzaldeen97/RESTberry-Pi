@@ -1,6 +1,8 @@
 import requests
 from bs4 import BeautifulSoup as bs
 from .Flight import Flight
+import logging
+logger = logging.getLogger(__name__)
 
 def get_arrivals_info():
     return QAIA_Arrivals()
