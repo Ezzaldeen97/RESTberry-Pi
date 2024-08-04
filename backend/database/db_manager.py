@@ -40,7 +40,7 @@ class Database:
             port=self.__config['db_port'],
             user=self.__config['db_user'],
             password=self.__config['db_password'],
-            database=self.__config['db_name'])
+            database=self.__config['db_name'], autocommit= True)
             print("Connected to the Mysql database")
         except mysql.connector.Error as e:
             print("Error connecting to MySQL database:", e)
