@@ -12,7 +12,7 @@ class Flight:
         self.gate = self.__get_gate()
         self.status = self.__get_status()
         self.flight_type = flight_type
-        self.cnx = db.get_connection()
+        self.cursor = db.get_connection().get_cursor()
 
    
     def __get_airline(self):
@@ -43,4 +43,17 @@ class Flight:
         print( self.airline,'|', self.origin,'|', self.flight_number,'|', self.scheduled_time,'|', self.estimated_time ,'|',self.gate ,'|',self.status,'|', self.flight_type)
 
     def push_to_db(self):
-        pass
+        try:
+            SQL_statement = f"""INSERT INTO {self.flight_type}(airline,
+                            origin ,
+                            Flight_number ,
+                            scheduled_time ,
+                            estimated_time ,
+                            gate ,
+                            flight_status ) VALUES(%s, %s, %s, %s, %s, %s, %s)"""
+            self.cursor.execute(SQL_statement, (self.airline, self.origin, self.flight_number, str(self.scheduled_time),
+                                        str(self.estimated_time), self.gate, self.estimated_time))
+        except Exception as e:
+            print(f"Error in pushing the data to the db {e}")
+        
+        
