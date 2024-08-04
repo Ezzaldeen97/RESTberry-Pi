@@ -5,7 +5,7 @@ class Flight:
 
         self.list_of_items = flight_content.find_all("td")
         self.airline = self.__get_airline()
-        self.origin = self.__get_distance()
+        self.location = self.__get_distance()
         self.flight_number = self.__get_flight_number()
         self.scheduled_time = self.__get_schedule_time()
         self.estimated_time = self.__get_estimated_time()
