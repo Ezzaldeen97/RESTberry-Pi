@@ -1,6 +1,6 @@
 import mysql.connector
 import json
-
+from Main import logger
 
 def connect():
     cnx = Database.get_instance()
@@ -43,6 +43,7 @@ class Database:
             database=self.__config['db_name'], autocommit= True)
             print("Connected to the Mysql database")
         except mysql.connector.Error as e:
+            logger.critical(e)
             print("Error connecting to MySQL database:", e)
         
     def get_cursor(self) :

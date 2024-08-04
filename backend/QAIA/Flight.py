@@ -1,5 +1,6 @@
 from datetime import datetime
 import backend.database as db
+from Main import logger
 class Flight:
     def __init__(self, flight_content, flight_type, sql_statement) :
 
@@ -27,6 +28,7 @@ class Flight:
     def __get_schedule_time(self):
         datetime_scheduled_time = datetime.strptime(self.list_of_items[4].string, "%d/%m/%Y %H:%M")
         if datetime_scheduled_time.date() != datetime.today().date():
+            logger.info(f"Skipped the flight {self.flight_number} because it isnt today, its {str(datetime_scheduled_time)}")
             raise ValueError(f"The flight isnt scheduled today, the flight is {str(datetime_scheduled_time)}")
         return datetime_scheduled_time
         
@@ -43,14 +45,15 @@ class Flight:
         return self.list_of_items[7].string
     
     def display_details(self):
-        print( self.airline,'|', self.origin,'|', self.flight_number,'|', self.scheduled_time,'|', self.estimated_time ,'|',self.gate ,'|',self.status,'|', self.flight_type)
+        print( self.airline,'|', self.location,'|', self.flight_number,'|', self.scheduled_time,'|', self.estimated_time ,'|',self.gate ,'|',self.status,'|', self.flight_type)
 
     def push_to_db(self):
 
         try:
-            self.cursor.execute(self.SQL_statement, (self.airline, self.origin, self.flight_number, str(self.scheduled_time),
+            self.cursor.execute(self.SQL_statement, (self.airline, self.location, self.flight_number, str(self.scheduled_time),
                                         str(self.estimated_time), self.gate, self.status))
         except Exception as e:
+            logger.critical(e)
             print(f"Error in pushing the data to the db {e}")
         
         

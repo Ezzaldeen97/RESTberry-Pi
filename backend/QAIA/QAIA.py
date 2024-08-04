@@ -35,7 +35,7 @@ class QAIA:
             try:
                 self.flights.append(Flight(flight, flight_type, sql_statement))
             except ValueError as e:
-                print(e)
+                pass
 
 
 
