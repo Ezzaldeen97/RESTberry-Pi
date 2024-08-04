@@ -32,8 +32,13 @@ class QAIA:
         for flight in flights:
             if flight.string =='\n':
                 continue
-            self.flights.append(Flight(flight, flight_type))
-        
+            try:
+                self.flights.append(Flight(flight, flight_type))
+            except ValueError as e:
+                print(e)
+
+
+
 
 class QAIA_Arrivals(QAIA):
     BASE_URL = QAIA.BASE_URL+'Arrivals.aspx'

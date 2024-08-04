@@ -26,7 +26,10 @@ class Flight:
         
     def __get_schedule_time(self):
         datetime_scheduled_time = datetime.strptime(self.list_of_items[4].string, "%d/%m/%Y %H:%M")
+        if datetime_scheduled_time.date() != datetime.today().date():
+            raise ValueError(f"The flight isnt scheduled today, the flight is {str(datetime_scheduled_time)}")
         return datetime_scheduled_time
+        
         
     def __get_estimated_time(self):
         datetime_estimated_time = datetime.strptime(self.list_of_items[5].string, "%d/%m/%Y %H:%M")
@@ -52,7 +55,7 @@ class Flight:
                             gate ,
                             flight_status ) VALUES(%s, %s, %s, %s, %s, %s, %s)"""
             self.cursor.execute(SQL_statement, (self.airline, self.origin, self.flight_number, str(self.scheduled_time),
-                                        str(self.estimated_time), self.gate, self.estimated_time))
+                                        str(self.estimated_time), self.gate, self.status))
         except Exception as e:
             print(f"Error in pushing the data to the db {e}")
         
