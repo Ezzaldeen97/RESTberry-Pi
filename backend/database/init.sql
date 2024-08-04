@@ -5,7 +5,7 @@ origin varchar(20) NOT NULL,
 Flight_number varchar(10) NOT NULL,
 scheduled_time datetime NOT NULL,
 estimated_time datetime NOT NULL,
-gate INT,
+gate VARCHAR(5),
 flight_status varchar(20),
 PRIMARY KEY (scheduled_time, Flight_number)
 
@@ -17,7 +17,7 @@ destination varchar(20) NOT NULL,
 Flight_number varchar(10) NOT NULL,
 scheduled_time datetime NOT NULL,
 estimated_time datetime NOT NULL,
-gate INT,
+gate VARCHAR(5),
 flight_status varchar(20),
 PRIMARY KEY (scheduled_time, Flight_number)
 
