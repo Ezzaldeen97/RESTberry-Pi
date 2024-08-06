@@ -18,6 +18,6 @@ RUN ln -snf /usr/share/zoneinfo/Europe/Berlin /etc/localtime && echo Europe/Berl
 
 RUN chmod +x /app/RESTBERRY_PI/Main.py
 
-RUN (crontab -l 2>/dev/null; echo "24 10 * * * python /app/RESTBERRY_PI/Main.py 2>&1 | tee /proc/1/fd/1") | crontab -
+RUN (crontab -l 2>/dev/null; echo "21 16 * * * /usr/local/bin/python /app/RESTBERRY_PI/Main.py 2>&1 | tee /proc/1/fd/1") | crontab -
 
 CMD ["cron", "-f"]
