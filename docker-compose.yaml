@@ -10,14 +10,25 @@ services:
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     ports:
-      - '3307:3307'
+      - '3307:3306'
     expose:
-      - '3307'
+      - '3306'
     volumes:
       - mysql_db:/var/lib/mysql
       - ./backend/database:/docker-entrypoint-initdb.d
-      
+    networks:
+      - my-network
+  python_app:
+    build: .
+    restart: always
+    depends_on:
+      - mysql_db
+    networks:
+      - my-network
 
 
 volumes:
   mysql_db:
+
+networks:
+  my-network:
