@@ -2,10 +2,13 @@ import backend.QAIA as QAIA
 import backend.database as db
 import logging
 logger = logging.getLogger(__name__)
+import os
 from datetime import datetime
 if __name__ == "__main__":
     db.connect()
-    logging.basicConfig(filename=f'logs/logs_{datetime.today().date()}.log', level=logging.INFO,
+    logger_path =os.path.join(os.path.dirname(__file__),"logs")
+
+    logging.basicConfig(filename=f'{logger_path}/logs_{datetime.today().date()}.log', level=logging.INFO,
                         format='%(asctime)s %(levelname)-8s -> %(message)s',
                             datefmt='%Y-%m-%d %H:%M:%S',
                             filemode='w')

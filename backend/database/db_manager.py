@@ -2,7 +2,7 @@ import mysql.connector
 import json
 import logging
 logger = logging.getLogger(__name__)
-
+import os
 
 def connect():
     cnx = Database.get_instance()
@@ -59,7 +59,10 @@ class Database:
         return Database._instance
     
     def get_config(self):
-        config_path = "config.json"
+        current_dir = os.path.dirname(__file__)
+        parent_dir = os.path.dirname(os.path.dirname(current_dir))
+        config_path = os.path.join(parent_dir, "config.json")
+        
         with open(config_path, 'r') as f:
             config = json.load(f)
         return config
