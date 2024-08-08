@@ -2,7 +2,7 @@ version: '3.3'
 
 services:
   mysql_db:
-    image: mysql:5.7
+    image: linuxserver/mariadb:alpine
     restart: always
     environment:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
@@ -15,7 +15,7 @@ services:
       - '3306'
     volumes:
       - mysql_db:/var/lib/mysql
-      - ./backend/database:/docker-entrypoint-initdb.d
+      - ./backend/database/init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - my-network
   python_app:

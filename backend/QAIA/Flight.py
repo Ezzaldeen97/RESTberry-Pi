@@ -9,12 +9,12 @@ class Flight:
         self.list_of_items = flight_content.find_all("td")
         self.airline = self.__get_airline()
         self.location = self.__get_distance()
+        self.flight_type = flight_type
         self.flight_number = self.__get_flight_number()
         self.scheduled_time = self.__get_schedule_time()
         self.estimated_time = self.__get_estimated_time()
         self.gate = self.__get_gate()
         self.status = self.__get_status()
-        self.flight_type = flight_type
         self.cursor = db.get_connection().get_cursor()
         self.SQL_statement = sql_statement
    
@@ -30,7 +30,7 @@ class Flight:
     def __get_schedule_time(self):
         datetime_scheduled_time = datetime.strptime(self.list_of_items[4].string, "%d/%m/%Y %H:%M")
         if datetime_scheduled_time.date() != datetime.today().date():
-            logger.info(f"Skipped the flight {self.flight_number} because it isnt today, its on {str(datetime_scheduled_time)}")
+            logger.info(f"Skipped the flight {self.flight_number} because it isnt today, its on {str(datetime_scheduled_time)}| {self.flight_type}")
             raise ValueError(f"The flight isnt scheduled today, the flight is {str(datetime_scheduled_time)}")
         return datetime_scheduled_time
         
