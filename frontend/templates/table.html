@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Table</title>
+</head>
+<body>
+
+    <h2>Data Table</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>airline</th>
+                <th>origin</th>
+                <th>flight number</th>
+                <th>scheduled time</th>
+                <th>estimated time</th>
+                <th>gate</th>
+                <th>status</th>
+
+
+
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in flights %}
+            <tr onclick="window.location.href='arrivals/{{ item[2] }}';">
+                <td>{{ item[0] }}</td>
+                <td>{{ item[1] }}</td>
+                <td>{{ item[2] }}</td> 
+                <td>{{ item[3] }}</td> 
+                <td>{{ item[4] }}</td> 
+                <td>{{ item[5] }}</td> 
+                <td>{{ item[6] }}</td> 
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</body>
+</html>
