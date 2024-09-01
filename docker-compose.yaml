@@ -16,24 +16,33 @@ services:
       - ./backend/database/init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - my-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
   python_app:
     build: .
     restart: always
     depends_on:
-      - mysql_db
+      mysql_db:
+        condition: service_healthy
     networks:
       - my-network
 
   flask_server:
     build:
-     context: .
-     dockerfile: Dockerfile.flask
+      context: .
+      dockerfile: Dockerfile.flask
     ports: 
       - '5000:5000'
+    depends_on:
+      mysql_db:
+        condition: service_healthy
     networks:
       - my-network
-
-
 
 volumes:
   mysql_db:
