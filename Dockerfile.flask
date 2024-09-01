@@ -1,0 +1,6 @@
+FROM python:3.9.10-alpine3.14
+WORKDIR /server
+RUN pip install --upgrade pip
+COPY . /server/
+RUN pip install --no-cache-dir -r /server/requirements.txt 
+CMD ["python","app.py"]

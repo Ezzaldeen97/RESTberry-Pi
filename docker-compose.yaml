@@ -11,8 +11,6 @@ services:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     ports:
       - '3307:3306'
-    expose:
-      - '3306'
     volumes:
       - mysql_db:/var/lib/mysql
       - ./backend/database/init.sql:/docker-entrypoint-initdb.d/init.sql
@@ -25,6 +23,16 @@ services:
       - mysql_db
     networks:
       - my-network
+
+  flask_server:
+    build:
+     context: .
+     dockerfile: Dockerfile.flask
+    ports: 
+      - '5000:5000'
+    networks:
+      - my-network
+
 
 
 volumes:
